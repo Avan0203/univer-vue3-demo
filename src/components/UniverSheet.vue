@@ -15,6 +15,8 @@ import { UniverSheetsFormulaUIPlugin } from "@univerjs/sheets-formula-ui";
 import { UniverSheetsUIPlugin } from "@univerjs/sheets-ui";
 import { UniverUIPlugin } from "@univerjs/ui";
 import { onBeforeUnmount, onMounted, ref, toRaw } from "vue";
+import { excelJSToWorkbookData, workbookDataToExcelJS } from "../utils/excel-workbook-converter";
+import ExcelJS from "exceljs";
 
 /**
  * 
@@ -33,6 +35,8 @@ const { data } = defineProps({
     default: () => ({}),
   },
 });
+
+const emit = defineEmits<{ (e: "import", payload: IWorkbookData): void }>();
 
 const univerRef = ref<Univer | null>(null);
 const workbook = ref<Workbook | null>(null);
@@ -53,7 +57,7 @@ onBeforeUnmount(() => {
 const init = (data = {}) => {
   const univer = new Univer({
     theme: defaultTheme,
-    locale: LocaleType.EN_US,
+    locale: LocaleType.ZH_CN,
     locales: {
       [LocaleType.ZH_CN]: zhCN,
       [LocaleType.EN_US]: enUS,
@@ -108,9 +112,42 @@ const getData = () => {
   return workbook.value.save();
 };
 
+/**
+ * 从 .xlsx 文件导入并替换当前 workbook（纯前端，不依赖后端）
+ */
+const importFromFile = async (file: File) => {
+  const buffer = await file.arrayBuffer();
+  const wb = new ExcelJS.Workbook();
+  await wb.xlsx.load(buffer);
+  const newData = excelJSToWorkbookData(wb);
+  destroyUniver();
+  init(newData);
+  emit("import", newData);
+};
+
+/**
+ * 导出当前 workbook 为 .xlsx 并下载（纯前端，不依赖后端）
+ */
+const exportToFile = async (filename = "univer") => {
+  const snapshot = getData();
+  const wb = workbookDataToExcelJS(snapshot);
+  const buffer = await wb.xlsx.writeBuffer();
+  const blob = new Blob([buffer], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${filename}.xlsx`;
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
 defineExpose({
   getData,
-  destroyUniver
+  destroyUniver,
+  importFromFile,
+  exportToFile,
 });
 </script>
 

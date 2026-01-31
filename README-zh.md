@@ -1,6 +1,6 @@
 # 在 Vue 3 中使用 Univer 的演示
 <p align="center">
-    <a href="./README-zh.md">English</a>
+    <a href="./README.md">English</a>
     |
     简体中文
 </p>
@@ -13,27 +13,26 @@
 ## 安装
 
 ```bash
-git clone https://github.com/awesome-univer/sheets-vue3-demo.git
-cd sheets-vue3-demo
-npm install # npm version >= 7  or pnpm install
+git clone https://github.com/Avan0203/univer-vue3-demo.git
+cd univer-vue3-demo
+pnpm install # npm version >= 7 
 ```
 
 ### 运行
 
 ```bash
-npm run start
+pnpm dev
 ```
 
 ### 构建
 
 ```bash
-npm run build
+pnpm build
 ```
 
-## 贡献
+### 声明
 
-如果你不想在本地安装开发环境，或者你的本地环境不满足开发要求，你可以使用在线代码编辑器进行开发。
+该仓库基于 https://github.com/awesome-univer/sheets-vue3-demo.git 的实现
 
-你可以点击下面的按钮在 StackBlitz 中打开这个仓库：
+拓展实现了导入与导出功能
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/awesome-univer/sheets-vue3-demo)
