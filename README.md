@@ -7,8 +7,15 @@
 
 This project is a demo of using [Univer](https://github.com/dream-num/univer) with Vue 3.
 
+This project is fork by [sheets-vue3-demo](https://github.com/awesome-univer/sheets-vue3-demo.git).
+
+The expansion has realized the basic import and export functions, supporting strings, numbers, dates, but does not support rich text
+
 This project use Composition API. If you want to use Options API, please see [sheets-vue2-demo](https://github.com/awesome-univer/sheets-vue2-demo).
 
+## Online Preview
+
+Click here [https://avan0203.github.io/univer-vue3-demo/](https://avan0203.github.io/univer-vue3-demo/);
 
 ## Project setup
 
